@@ -2,6 +2,7 @@
 
 import PostCard from "@/features/posts/components/PostCard";
 import usePosts from "@/features/posts/hooks/usePosts";
+import useDebounce from "@/hooks/useDebounce";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function PostsPage() {
@@ -9,6 +10,8 @@ export default function PostsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const search = searchParams.get("search") ?? "";
+  // debounced
+  const debouncedSearch = useDebounce(search, 500);
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
@@ -17,7 +20,7 @@ export default function PostsPage() {
   }
 
   // ? Tanstack Query -----------------
-  const { data, isLoading, isError } = usePosts(search);
+  const { data, isLoading, isError } = usePosts(debouncedSearch);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
