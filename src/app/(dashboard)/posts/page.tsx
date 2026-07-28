@@ -11,7 +11,7 @@ export default function PostsPage() {
   const searchParams = useSearchParams();
   const search = searchParams.get("search") ?? "";
   // debounced
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch = useDebounce(search, 1000);
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;

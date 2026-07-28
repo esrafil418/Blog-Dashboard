@@ -1,9 +1,9 @@
 import { getPosts } from "@/features/posts/services/posts.service";
 import { useQuery } from "@tanstack/react-query";
 
-export default function usePosts(search: string) {
+export default function usePosts(search: string, page: number) {
   return useQuery({
-    queryKey: ["posts", search],
+    queryKey: ["posts", search, page],
     queryFn: () => getPosts(search),
   });
 }
