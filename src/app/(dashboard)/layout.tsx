@@ -1,5 +1,7 @@
 "use client";
 
+import Navbar from "@/components/navbar";
+import Sidebar from "@/components/sidebar";
 import { useRouter } from "next/navigation";
 
 export default function DashboardLayout({
@@ -10,17 +12,12 @@ export default function DashboardLayout({
   const router = useRouter();
   return (
     <div className="min-h-screen">
-      <header className="border-b p-4 bg-gray-200">
-        <button
-          onClick={() => router.push("/")}
-          type="button"
-          className="text-2xl text-gray-700 font-bold cursor-pointer hover:text-black transition-all duration-300"
-        >
-          Blog Dashboard
-        </button>
-      </header>
+      <Navbar />
 
-      <main className="p-6 bg-gray-50">{children}</main>
+      <div className="flex">
+        <Sidebar />
+        <main className="flex-1 p-6 bg-gray-50">{children}</main>
+      </div>
     </div>
   );
 }
