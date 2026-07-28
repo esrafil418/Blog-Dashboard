@@ -1,6 +1,8 @@
 "use client";
 
+import ErrorMessage from "@/components/ErrorMessage";
 import PostCard from "@/features/posts/components/PostCard";
+import PostCardSkeleton from "@/features/posts/components/PostCardSkeleton";
 import usePosts from "@/features/posts/hooks/usePosts";
 import useDebounce from "@/hooks/useDebounce";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -22,12 +24,30 @@ export default function PostsPage() {
   // ? Tanstack Query -----------------
   const { data, isLoading, isError } = usePosts(debouncedSearch);
 
+  // Loading
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="grid gap-4">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <PostCardSkeleton key={index} />
+        ))}
+      </div>
+    );
   }
 
+  // Error
   if (isError) {
-    return <h1>Something went wrong.</h1>;
+    return <ErrorMessage message="Could not load posts" />;
+  }
+
+  if (data?.posts.length === 0) {
+    return (
+      <div className="rounded-lg border p-8 text-center">
+        <h2 className="text-xl font-semibold">No posts found</h2>
+
+        <p className="text-muted-foreground mt-2">Try another search.</p>
+      </div>
+    );
   }
 
   // ? return -----------------
