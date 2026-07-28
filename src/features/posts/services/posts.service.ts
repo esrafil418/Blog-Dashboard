@@ -23,3 +23,27 @@ export async function getPost(id: string): Promise<Post> {
 
   return response.json();
 }
+
+//! 3 -------------------------
+//? Create a post
+
+type CreatePostData = {
+  title: string;
+  body: string;
+};
+
+export async function createPost(post: CreatePostData) {
+  const response = await fetch("https://dummyjson.com/posts/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(post),
+  });
+
+  if (response.ok) {
+    throw new Error("Failed to create post.");
+  }
+
+  return response.json();
+}
