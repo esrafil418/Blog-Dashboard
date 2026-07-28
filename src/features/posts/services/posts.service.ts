@@ -2,8 +2,12 @@ import { Post, PostsResponse } from "@/types/post";
 
 //! 1 -------------------------
 //? get All posts
-export async function getPosts(): Promise<PostsResponse> {
-  const response = await fetch("https://dummyjson.com/posts");
+export async function getPosts(search: string): Promise<PostsResponse> {
+  const url = search
+    ? `https://dummyjson.com/posts/search?q=${encodeURIComponent(search)}`
+    : "https://dummyjson.com/posts";
+
+  const response = await fetch(url);
 
   if (!response.ok) {
     throw new Error("Failed to fetch posts.");
