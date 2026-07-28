@@ -1,6 +1,6 @@
 "use client";
 
-import { getPost } from "@/services/posts.service";
+import { getPost } from "@/features/posts/services/posts.service";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 

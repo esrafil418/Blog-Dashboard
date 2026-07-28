@@ -1,5 +1,7 @@
 import { Post, PostsResponse } from "@/types/post";
 
+//! 1 -------------------------
+//? get All posts
 export async function getPosts(): Promise<PostsResponse> {
   const response = await fetch("https://dummyjson.com/posts");
 
@@ -10,6 +12,8 @@ export async function getPosts(): Promise<PostsResponse> {
   return response.json();
 }
 
+//! 2 -------------------------
+//? get Single post
 export async function getPost(id: string): Promise<Post> {
   const response = await fetch(`https://dummyjson.com/posts/${id}`);
 
