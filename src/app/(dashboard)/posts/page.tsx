@@ -12,6 +12,7 @@ export default function PostsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const search = searchParams.get("search") ?? "";
+  const page = Number(searchParams.get("page") ?? "1");
   // debounced
   const debouncedSearch = useDebounce(search, 1000);
 
@@ -22,7 +23,7 @@ export default function PostsPage() {
   }
 
   // ? Tanstack Query -----------------
-  const { data, isLoading, isError } = usePosts(debouncedSearch);
+  const { data, isLoading, isError } = usePosts(debouncedSearch, page);
 
   // Loading
   if (isLoading) {

@@ -42,7 +42,7 @@ type CreatePostData = {
   body: string;
 };
 
-export async function createPost(post: CreatePostData) {
+export async function createPost(post: CreatePostData): Promise<Post> {
   const response = await fetch("https://dummyjson.com/posts/add", {
     method: "POST",
     headers: {
@@ -51,7 +51,7 @@ export async function createPost(post: CreatePostData) {
     body: JSON.stringify(post),
   });
 
-  if (response.ok) {
+  if (!response.ok) {
     throw new Error("Failed to create post.");
   }
 
