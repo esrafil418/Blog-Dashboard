@@ -2,10 +2,16 @@ import { Post, PostsResponse } from "@/types/post";
 
 //! 1 -------------------------
 //? get All posts
-export async function getPosts(search: string): Promise<PostsResponse> {
+export async function getPosts(
+  search: string,
+  page: number,
+): Promise<PostsResponse> {
+  const limit = 10;
+  const skip = (page - 1) * limit;
+
   const url = search
-    ? `https://dummyjson.com/posts/search?q=${encodeURIComponent(search)}`
-    : "https://dummyjson.com/posts";
+    ? `https://dummyjson.com/posts/search?q=${encodeURIComponent(search)}&limit=${limit}&skip=${skip}`
+    : `https://dummyjson.com/posts?limit=${limit}&skip=${skip}`;
 
   const response = await fetch(url);
 
