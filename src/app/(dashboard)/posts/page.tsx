@@ -23,14 +23,12 @@ export default function PostsPage() {
       <h1 className="mb-4 text-3xl font-bold">Posts</h1>
 
       {data?.posts.map((post) => (
-        <Link
-          href={`/posts/${post.id}`}
-          key={post.id}
-          className="mb-6 rounded border p-4"
-        >
-          <h2 className="font-bold">{post.title}</h2>
+        <Link href={`/posts/${post.id}`} key={post.id} className="mb-6">
+          <h2 className="font-bold bg-gray-300 p-2 rounded mb-2">
+            {post.title}
+          </h2>
 
-          <p>{post.body}</p>
+          <p className="mb-8">{post.body}</p>
         </Link>
       ))}
     </main>
