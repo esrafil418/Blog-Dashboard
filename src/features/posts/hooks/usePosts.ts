@@ -1,4 +1,4 @@
-import { getPosts } from "@/features/posts/services/posts.service";
+import { getPost, getPosts } from "@/features/posts/services/posts.service";
 import {
   keepPreviousData,
   useQuery,
@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { useEffect } from "react";
 
+//? All Posts ------------------
 export default function usePosts(search: string, page: number) {
   const queryClient = useQueryClient();
 
@@ -24,4 +25,12 @@ export default function usePosts(search: string, page: number) {
   }, [page, search, queryClient]);
 
   return query;
+}
+
+//? Single Post ------------------
+export function usePost(id: string) {
+  return useQuery({
+    queryKey: ["post", id],
+    queryFn: () => getPost(id),
+  });
 }

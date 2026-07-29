@@ -1,7 +1,8 @@
 "use client";
 
-import { getPost } from "@/features/posts/services/posts.service";
-import { useQuery } from "@tanstack/react-query";
+import PostDetail from "@/features/posts/components/PostDetail";
+import { usePost } from "@/features/posts/hooks/usePosts";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type Props = {
@@ -11,12 +12,11 @@ type Props = {
 };
 
 export default function PostDetailPage({ params }: Props) {
+  const router = useRouter();
+
   const { id } = React.use(params);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["post", id],
-    queryFn: () => getPost(id),
-  });
+  const { data, isLoading, isError } = usePost(id);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -27,10 +27,14 @@ export default function PostDetailPage({ params }: Props) {
   }
 
   return (
-    <main className="p-6">
-      <h1 className="text-3xl font-bold">{data?.title}</h1>
-
-      <p className="mt-4">{data?.body}</p>
-    </main>
+    <>
+      <button
+        onClick={() => router.back()}
+        className="mb-4 text-sm text-muted-foreground hover:text-primary cursor-pointer transition-all duration-200"
+      >
+        ← Back to posts
+      </button>
+      <main className="min-h-screen">{data && <PostDetail post={data} />}</main>
+    </>
   );
 }
