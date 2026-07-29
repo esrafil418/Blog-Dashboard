@@ -13,17 +13,42 @@ export default function PostsPage() {
   const searchParams = useSearchParams();
   const search = searchParams.get("search") ?? "";
   const page = Number(searchParams.get("page") ?? "1");
-  // debounced
+  //? debounced
   const debouncedSearch = useDebounce(search, 1000);
 
+  //? handle Search
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
 
-    router.push(`/posts?search=${encodeURIComponent(value)}`);
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (value) {
+      params.set("search", value);
+    } else {
+      params.delete("search");
+    }
+
+    params.set("page", "1");
+
+    const newUrl = `/posts?${params.toString()}`;
+
+    if (newUrl !== window.location.pathname + window.location.search) {
+      router.push(newUrl, { scroll: false });
+    }
+  }
+
+  // ? pagination
+  function goToPage(newPage: number) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(newPage));
+
+    router.push(`/posts?${params.toString()}`, { scroll: false });
   }
 
   // ? Tanstack Query -----------------
   const { data, isLoading, isError } = usePosts(debouncedSearch, page);
+
+  const totalPages = data ? Math.ceil(data.total / data.limit) : 1;
 
   // Loading
   if (isLoading) {
@@ -69,6 +94,27 @@ export default function PostsPage() {
         {data?.posts.map((post) => (
           <PostCard key={post.id} post={post}></PostCard>
         ))}
+      </div>
+      <div className="mt-8 flex items-center justify-between">
+        <button
+          onClick={() => goToPage(page - 1)}
+          disabled={page === 1}
+          className="rounded border px-4 py-2 disabled:opacity-50 cursor-pointer"
+        >
+          Previous
+        </button>
+
+        <span>
+          Page {page} of {totalPages}
+        </span>
+
+        <button
+          onClick={() => goToPage(page + 1)}
+          disabled={page >= totalPages}
+          className="rounded border px-4 py-2 disabled:opacity-50 cursor-pointer"
+        >
+          Next
+        </button>
       </div>
     </main>
   );
