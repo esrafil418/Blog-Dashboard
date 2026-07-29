@@ -1,8 +1,23 @@
 "use client";
 
 import DashboardStatCard from "@/components/DashboardStatCard";
+import { useComments } from "@/features/comments/hooks/useComments";
+import usePosts from "@/features/posts/hooks/usePosts";
+import { useUsers } from "@/features/users/hooks/useUsers";
 
 export default function Home() {
+  const { data: postsData, isLoading: postsLoading } = usePosts("", 1);
+
+  const { data: usersData, isLoading: usersLoading } = useUsers();
+
+  const { data: commentsData, isLoading: commentsLoading } = useComments();
+
+  const postsCount = postsData?.total ?? 0;
+
+  const usersCount = usersData?.total ?? 0;
+
+  const commentsCount = commentsData?.total ?? 0;
+
   return (
     <main className="bg-gray-50 min-h-screen p-6">
       <div className="space-y-8">
@@ -17,19 +32,19 @@ export default function Home() {
         <section className="grid gap-4 md:grid-cols-3">
           <DashboardStatCard
             title="Posts"
-            value="251"
+            value={postsCount}
             description="Total posts"
           />
 
           <DashboardStatCard
             title="Users"
-            value="208"
+            value={usersCount}
             description="Registered users"
           />
 
           <DashboardStatCard
             title="Comments"
-            value="340"
+            value={commentsCount}
             description="Total comments"
           />
         </section>
