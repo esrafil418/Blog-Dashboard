@@ -1,30 +1,11 @@
-import { navigation } from "@/config/navigation";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+"use client";
+
+import NavigationLinks from "./NavigationLinks";
 
 export default function Sidebar() {
-  const pathname = usePathname();
-
   return (
-    <aside className="hidden md:block w-60 border-r p-4">
-      <nav className="flex flex-col gap-3">
-        {navigation.map((link) => {
-          const isActive =
-            link.href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(link.href);
-
-          return (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={isActive ? "font-bold text-blue-500" : ""}
-            >
-              {link.label}
-            </Link>
-          );
-        })}
-      </nav>
+    <aside className="hidden w-60 border-r bg-white p-4 md:block">
+      <NavigationLinks />
     </aside>
   );
 }

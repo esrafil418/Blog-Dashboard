@@ -1,7 +1,6 @@
-import { navigation } from "@/config/navigation";
 import { Menu } from "lucide-react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import NavigationLinks from "./NavigationLinks";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 export default function MobileSidebar() {
@@ -15,26 +14,11 @@ export default function MobileSidebar() {
 
         <SheetContent side="left">
           <nav className="mt-8 flex flex-col gap-4">
-            {navigation.map((link) => {
-              const isActive =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(link.href);
-
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={
-                    isActive
-                      ? "font-semibold text-primary"
-                      : "text-muted-foreground"
-                  }
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+            <SheetContent side="left">
+              <div className="mt-8">
+                <NavigationLinks />
+              </div>
+            </SheetContent>
           </nav>
         </SheetContent>
       </Sheet>
