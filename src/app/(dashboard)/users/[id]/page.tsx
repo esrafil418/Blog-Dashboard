@@ -1,5 +1,8 @@
 "use client";
 
+import EmptyState from "@/components/states/EmptyState";
+import ErrorState from "@/components/states/ErrorState";
+import LoadingState from "@/components/states/LoadingState";
 import { Button } from "@/components/ui/button";
 import UserPosts from "@/features/posts/components/UserPosts";
 import { useUserPosts } from "@/features/posts/hooks/useUserPosts";
@@ -21,18 +24,26 @@ export default function UserPage({ params }: Props) {
   const { data, isLoading, isError } = useUser(id);
   const { data: postsData, isLoading: postsLoading } = useUserPosts(id);
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
+ if (isLoading) {
+  return (
+    <LoadingState message="Loading users..." />
+  );
+}
 
   if (isError) {
-    return <h1>Error loading user.</h1>;
-  }
+  return (
+    <ErrorState message="Failed to load user." />
+  );
+}
 
   if (!data) {
-    return <h1>User not found.</h1>;
-  }
-
+  return (
+    <EmptyState
+      title="User not found"
+      description="We couldn't find the requested user."
+    />
+  );
+}
   return (
     <main className="mx-auto max-w-4xl space-y-6 p-6">
       <Button
