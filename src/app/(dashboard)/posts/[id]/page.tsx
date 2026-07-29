@@ -1,7 +1,10 @@
 "use client";
 
+import EmptyState from "@/components/states/EmptyState";
+import ErrorState from "@/components/states/ErrorState";
+import LoadingState from "@/components/states/LoadingState";
 import PostDetail from "@/features/posts/components/PostDetail";
-import { usePost } from "@/features/posts/hooks/usePosts";
+import { usePost } from "@/features/posts/hooks/usePost";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -19,11 +22,20 @@ export default function PostDetailPage({ params }: Props) {
   const { data, isLoading, isError } = usePost(id);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <LoadingState message="Loading post..." />;
   }
 
   if (isError) {
-    return <h1>Error loading post.</h1>;
+    return <ErrorState message="Failed to load post." />;
+  }
+
+  if (!data) {
+    return (
+      <EmptyState
+        title="Post not found"
+        description="We couldn't find the requested post."
+      />
+    );
   }
 
   return (

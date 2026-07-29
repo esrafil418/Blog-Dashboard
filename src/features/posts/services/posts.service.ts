@@ -1,4 +1,7 @@
 import { Post, PostsResponse } from "@/types/post";
+import axios from "axios";
+
+const API_URL = "https://dummyjson.com/";
 
 //! 1 -------------------------
 //? get All posts
@@ -56,4 +59,14 @@ export async function createPost(post: CreatePostData): Promise<Post> {
   }
 
   return response.json();
+}
+
+//! 4 -------------------------
+// ? get User Post
+export async function getUserPosts(id: string) {
+  const response = await axios.get<PostsResponse>(
+    `${API_URL}/users/${id}/posts`,
+  );
+
+  return response.data;
 }

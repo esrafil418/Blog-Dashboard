@@ -1,6 +1,7 @@
 "use client";
 
-import ErrorMessage from "@/components/ErrorMessage";
+import EmptyState from "@/components/states/EmptyState";
+import ErrorState from "@/components/states/ErrorState";
 import PostCard from "@/features/posts/components/PostCard";
 import PostCardSkeleton from "@/features/posts/components/PostCardSkeleton";
 import usePosts from "@/features/posts/hooks/usePosts";
@@ -63,7 +64,16 @@ export default function PostsPage() {
 
   // Error
   if (isError) {
-    return <ErrorMessage message="Could not load posts" />;
+    return <ErrorState message="Failed to load posts." />;
+  }
+
+  if (!data) {
+    return (
+      <EmptyState
+        title="Post not found"
+        description="We couldn't find the requested posts."
+      />
+    );
   }
 
   if (data?.posts.length === 0) {

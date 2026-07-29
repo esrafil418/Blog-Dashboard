@@ -1,15 +1,24 @@
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 
 type DashboardStatCardProps = {
   title: string;
   value: string | number;
   description?: string;
+  href: string;
 };
 
 export default function DashboardStatCard({
   title,
   value,
   description,
+  href,
 }: DashboardStatCardProps) {
   return (
     <Card>
@@ -26,6 +35,12 @@ export default function DashboardStatCard({
           <p className="mt-2 text-sm text-muted-foreground">{description}</p>
         )}
       </CardContent>
+
+      <CardFooter className="justify-end">
+        <Link href={href} className="text-sm text-primary hover:underline">
+          View more →
+        </Link>
+      </CardFooter>
     </Card>
   );
 }
