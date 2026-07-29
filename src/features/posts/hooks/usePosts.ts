@@ -1,4 +1,4 @@
-import { getPost, getPosts } from "@/features/posts/services/posts.service";
+import { getPosts } from "@/features/posts/services/posts.service";
 import {
   keepPreviousData,
   useQuery,
@@ -25,12 +25,4 @@ export default function usePosts(search: string, page: number) {
   }, [page, search, queryClient]);
 
   return query;
-}
-
-//? Single Post ------------------
-export function usePost(id: string) {
-  return useQuery({
-    queryKey: ["post", id],
-    queryFn: () => getPost(id),
-  });
 }

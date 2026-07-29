@@ -1,7 +1,7 @@
 "use client";
 
 import PostDetail from "@/features/posts/components/PostDetail";
-import { usePost } from "@/features/posts/hooks/usePosts";
+import { usePost } from "@/features/posts/hooks/usePost";
 import { useRouter } from "next/navigation";
 import React from "react";
 
