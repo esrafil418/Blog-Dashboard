@@ -19,7 +19,7 @@ export default function Home() {
   const isLoading = postsLoading || usersLoading || commentsLoading;
 
   return (
-    <main className="bg-gray-50 min-h-screen p-6">
+    <main className="bg-gray-50 min-h-screen p-6 md:px-10">
       <div className="space-y-8">
         <section>
           <h1 className="text-3xl font-bold">Welcome back</h1>

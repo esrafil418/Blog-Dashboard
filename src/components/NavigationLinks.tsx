@@ -12,7 +12,7 @@ export default function NavigationLinks({ onNavigate }: NavigationLinksProps) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-2">
+    <nav className="flex flex-col gap-2 py-4">
       {navigation.map((link) => {
         const isActive =
           link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);

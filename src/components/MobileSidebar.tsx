@@ -1,10 +1,8 @@
 import { Menu } from "lucide-react";
-import { usePathname } from "next/navigation";
 import NavigationLinks from "./NavigationLinks";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 export default function MobileSidebar() {
-  const pathname = usePathname();
   return (
     <div className="md:hidden">
       <Sheet>

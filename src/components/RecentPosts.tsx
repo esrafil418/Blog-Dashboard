@@ -18,7 +18,7 @@ export default function RecentPosts({ posts }: RecentPostsProps) {
         </Link>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {posts.slice(0, 4).map((post) => (
           <Link key={post.id} href={`/posts/${post.id}`}>
             <Card className="transition hover:shadow-md">
@@ -27,7 +27,7 @@ export default function RecentPosts({ posts }: RecentPostsProps) {
               </CardHeader>
 
               <CardContent>
-                <p className="line-clamp-2 text-sm text-muted-foreground">
+                <p className="line-clamp-4 text-sm text-muted-foreground">
                   {post.body}
                 </p>
 
