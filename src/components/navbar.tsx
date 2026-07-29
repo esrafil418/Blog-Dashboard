@@ -12,7 +12,7 @@ export default function Navbar() {
         Blog Dashboard
       </button>
 
-      <p className="text-sm text-muted-foreground">Welcome </p>
+      <p className="text-sm text-muted-foreground cursor-pointer">Sign up </p>
     </header>
   );
 }

@@ -1,18 +1,14 @@
+import { navigation } from "@/config/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
   const pathname = usePathname();
 
-  const links = [
-    { href: "/", label: "Home" },
-    { href: "/posts", label: "Posts" },
-    { href: "/users", label: "Users" },
-  ];
   return (
-    <aside className="w-60 border-r p-4">
+    <aside className="hidden md:block w-60 border-r p-4">
       <nav className="flex flex-col gap-3">
-        {links.map((link) => {
+        {navigation.map((link) => {
           const isActive =
             link.href === "/"
               ? pathname === "/"
