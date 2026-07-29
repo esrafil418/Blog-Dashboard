@@ -1,6 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import UserProfile from "@/features/users/components/UserProfile";
 import { useUser } from "@/features/users/hooks/useUser";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type Props = {
@@ -11,7 +15,7 @@ type Props = {
 
 export default function UserPage({ params }: Props) {
   const { id } = React.use(params);
-
+  const router = useRouter();
   const { data, isLoading, isError } = useUser(id);
 
   if (isLoading) {
@@ -27,8 +31,17 @@ export default function UserPage({ params }: Props) {
   }
 
   return (
-    <main className="p-6">
-      <h1>{data.firstName}</h1>
+    <main className="mx-auto max-w-4xl space-y-6 p-6">
+      <Button
+        className="cursor-pointer"
+        variant="outline"
+        onClick={() => router.back()}
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back to users
+      </Button>
+
+      <UserProfile user={data} />
     </main>
   );
 }
