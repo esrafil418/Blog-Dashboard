@@ -1,14 +1,54 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import DashboardStatCard from "@/components/DashboardStatCard";
+import { useComments } from "@/features/comments/hooks/useComments";
+import usePosts from "@/features/posts/hooks/usePosts";
+import { useUsers } from "@/features/users/hooks/useUsers";
 
 export default function Home() {
-  const router = useRouter();
+  const { data: postsData, isLoading: postsLoading } = usePosts("", 1);
+
+  const { data: usersData, isLoading: usersLoading } = useUsers();
+
+  const { data: commentsData, isLoading: commentsLoading } = useComments();
+
+  const postsCount = postsData?.total ?? 0;
+
+  const usersCount = usersData?.total ?? 0;
+
+  const commentsCount = commentsData?.total ?? 0;
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <Button onClick={() => router.push("/posts")}>Click me</Button>
+    <main className="bg-gray-50 min-h-screen p-6">
+      <div className="space-y-8">
+        <section>
+          <h1 className="text-3xl font-bold">Welcome back</h1>
+
+          <p className="mt-2 text-muted-foreground">
+            Manage your content and explore your data.
+          </p>
+        </section>
+
+        <section className="grid gap-4 md:grid-cols-3">
+          <DashboardStatCard
+            title="Posts"
+            value={postsCount}
+            description="Total posts"
+          />
+
+          <DashboardStatCard
+            title="Users"
+            value={usersCount}
+            description="Registered users"
+          />
+
+          <DashboardStatCard
+            title="Comments"
+            value={commentsCount}
+            description="Total comments"
+          />
+        </section>
+      </div>
     </main>
   );
 }

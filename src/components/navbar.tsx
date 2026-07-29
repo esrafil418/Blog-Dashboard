@@ -1,9 +1,10 @@
 import { useRouter } from "next/navigation";
+import MobileSidebar from "./MobileSidebar";
 
 export default function Navbar() {
   const router = useRouter();
   return (
-    <header className="flex h-16 items-center justify-between border-b px-6">
+    <header className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center justify-between border-b bg-white px-6">
       <button
         onClick={() => router.push("/")}
         type="button"
@@ -12,7 +13,15 @@ export default function Navbar() {
         Blog Dashboard
       </button>
 
-      <p className="text-sm text-muted-foreground">Welcome </p>
+      {/* Mobile sidebar trigger - replaces Login on mobile */}
+      <div className="md:hidden">
+        <MobileSidebar />
+      </div>
+
+      {/* Login - hidden on mobile, visible on desktop */}
+      <p className="hidden md:block text-sm text-muted-foreground cursor-pointer">
+        Login
+      </p>
     </header>
   );
 }

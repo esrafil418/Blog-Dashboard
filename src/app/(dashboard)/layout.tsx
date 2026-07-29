@@ -1,22 +1,22 @@
 "use client";
 
-import Navbar from "@/components/navbar";
-import Sidebar from "@/components/sidebar";
-import { useRouter } from "next/navigation";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   return (
     <div className="min-h-screen">
       <Navbar />
 
-      <div className="flex">
+      <div className="flex pt-16 min-h-[calc(100vh-4rem)]">
         <Sidebar />
-        <main className="flex-1 p-6 bg-gray-50">{children}</main>
+        <main className="flex-1 bg-gray-50">
+          <div className="p-4 md:p-6">{children}</div>
+        </main>
       </div>
     </div>
   );
