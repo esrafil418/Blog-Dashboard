@@ -1,8 +1,9 @@
 "use client";
 
+import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/states/EmptyState";
 import ErrorState from "@/components/states/ErrorState";
-import CreatePostForm from "@/features/posts/components/CreatePostPage";
+import { Input } from "@/components/ui/input";
 import PostCard from "@/features/posts/components/PostCard";
 import PostCardSkeleton from "@/features/posts/components/PostCardSkeleton";
 import usePosts from "@/features/posts/hooks/usePosts";
@@ -89,13 +90,13 @@ export default function PostsPage() {
 
   // ? return -----------------
   return (
-    <main className="p-6 bg-background">
-      <h1 className="mb-4 text-3xl font-bold">Posts</h1>
+    <main className="space-y-6 p-6 bg-background">
+      <PageHeader title="Posts" description="Browse all posts" />
 
       {/* search */}
-      <input
-        className="mb-6 w-full rounded border p-2"
-        placeholder="Search..."
+      <Input
+        className="mb-6"
+        placeholder="Search posts..."
         value={search}
         onChange={handleSearch}
       />
@@ -106,6 +107,8 @@ export default function PostsPage() {
           <PostCard key={post.id} post={post}></PostCard>
         ))}
       </div>
+
+      {/* pagination */}
       <div className="mt-8 flex items-center justify-between">
         <button
           onClick={() => goToPage(page - 1)}
