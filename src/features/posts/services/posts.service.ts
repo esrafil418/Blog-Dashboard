@@ -1,7 +1,7 @@
 import { CreatePostInput, Post, PostsResponse } from "@/types/post";
 import axios from "axios";
 
-const API_URL = "https://dummyjson.com/";
+const API_URL = "https://dummyjson.com";
 
 //! 1 -------------------------
 //? get All posts
@@ -43,7 +43,7 @@ export async function getPost(id: string): Promise<Post> {
 export async function createPost(post: CreatePostInput): Promise<Post> {
   const response = await axios.post(`${API_URL}/posts/add`, post);
 
-  return response.data();
+  return response.data;
 }
 
 //! 4 -------------------------

@@ -3,6 +3,7 @@
 import DashboardStatCard from "@/components/DashboardStatCard";
 import DashboardStatSkeleton from "@/components/DashboardStatSkeleton";
 import RecentPosts from "@/components/RecentPosts";
+import { ThemeToggle } from "@/components/theme/dark-mode-button";
 import { useComments } from "@/features/comments/hooks/useComments";
 import usePosts from "@/features/posts/hooks/usePosts";
 import { useUsers } from "@/features/users/hooks/useUsers";
@@ -19,10 +20,13 @@ export default function Home() {
   const isLoading = postsLoading || usersLoading || commentsLoading;
 
   return (
-    <main className="bg-gray-50 min-h-screen p-6 md:px-10">
+    <main className="flex-1 bg-background min-h-screen p-6 md:px-10">
       <div className="space-y-8">
         <section>
-          <h1 className="text-3xl font-bold">Welcome back</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold">Welcome back</h1>
+            <ThemeToggle />
+          </div>
 
           <p className="mt-2 text-muted-foreground">
             Manage your content and explore your data.

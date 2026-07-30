@@ -8,6 +8,10 @@ export const navigation = [
     label: "Posts",
   },
   {
+    href: "/posts/create",
+    label: " - Create Post",
+  },
+  {
     href: "/users",
     label: "Users",
   },

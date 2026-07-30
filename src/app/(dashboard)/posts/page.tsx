@@ -89,7 +89,7 @@ export default function PostsPage() {
 
   // ? return -----------------
   return (
-    <main className="p-6">
+    <main className="p-6 bg-background">
       <h1 className="mb-4 text-3xl font-bold">Posts</h1>
 
       {/* search */}

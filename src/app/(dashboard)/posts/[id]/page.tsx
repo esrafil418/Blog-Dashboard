@@ -39,14 +39,15 @@ export default function PostDetailPage({ params }: Props) {
   }
 
   return (
-    <>
+    <div className="bg-background">
       <button
+        type="button"
         onClick={() => router.back()}
         className="mb-4 text-sm text-muted-foreground hover:text-primary cursor-pointer transition-all duration-200"
       >
         ← Back to posts
       </button>
       <main className="min-h-screen">{data && <PostDetail post={data} />}</main>
-    </>
+    </div>
   );
 }
