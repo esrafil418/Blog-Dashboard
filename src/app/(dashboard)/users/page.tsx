@@ -27,7 +27,7 @@ export default function UsersPage() {
   }
 
   return (
-    <main className="space-y-6 p-6">
+    <main className="space-y-6 p-6 bg-background">
       <section>
         <h1 className="text-3xl font-bold">Users</h1>
 

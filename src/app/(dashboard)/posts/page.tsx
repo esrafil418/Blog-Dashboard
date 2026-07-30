@@ -2,6 +2,7 @@
 
 import EmptyState from "@/components/states/EmptyState";
 import ErrorState from "@/components/states/ErrorState";
+import CreatePostForm from "@/features/posts/components/CreatePostPage";
 import PostCard from "@/features/posts/components/PostCard";
 import PostCardSkeleton from "@/features/posts/components/PostCardSkeleton";
 import usePosts from "@/features/posts/hooks/usePosts";
@@ -88,7 +89,7 @@ export default function PostsPage() {
 
   // ? return -----------------
   return (
-    <main className="p-6">
+    <main className="p-6 bg-background">
       <h1 className="mb-4 text-3xl font-bold">Posts</h1>
 
       {/* search */}
