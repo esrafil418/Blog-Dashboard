@@ -3,9 +3,9 @@ import { postKeys } from "../posts.keys";
 import { getPost } from "../services/posts.service";
 
 //? Single Post ------------------
-export function usePost(id: string) {
+export function usePost(id: string | number) {
   return useQuery({
-    queryKey: postKeys.detail(id),
-    queryFn: () => getPost(id),
+    queryKey: postKeys.detail(String(id)),
+    queryFn: () => getPost(String(id)),
   });
 }

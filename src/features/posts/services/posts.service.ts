@@ -55,3 +55,22 @@ export async function getUserPosts(id: string) {
 
   return response.data;
 }
+
+//! 5 -------------------------
+// ? Update Post
+export async function updatePost(
+  id: string,
+  post: CreatePostInput,
+): Promise<Post> {
+  const response = await axios.put(`${API_URL}/posts/${id}`, post);
+
+  return response.data;
+}
+
+//! 6 -------------------------
+// ? Delete Post
+export async function deletePost(id: string): Promise<Post> {
+  const response = await axios.delete(`${API_URL}/posts/${id}`);
+
+  return response.data;
+}

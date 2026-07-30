@@ -1,24 +1,24 @@
-import { CreatePostInput } from "@/types/post";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { postKeys } from "../posts.keys";
-import { createPost } from "../services/posts.service";
+import { deletePost } from "../services/posts.service";
 
-export function useCreatePost() {
+export function useDeletePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (post: CreatePostInput) => createPost(post),
+    mutationFn: (id: string) => deletePost(id),
 
     onSuccess: () => {
-      toast.success("Post created successfully");
+      toast.success("Post deleted successfully");
 
       queryClient.invalidateQueries({
         queryKey: postKeys.all,
       });
     },
+
     onError: () => {
-      toast.error("Failed to create post");
+      toast.error("Failed to delete post");
     },
   });
 }
