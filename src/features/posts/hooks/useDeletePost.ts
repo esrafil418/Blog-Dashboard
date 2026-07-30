@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+
 import { postKeys } from "../posts.keys";
 import { deletePost } from "../services/posts.service";
 
@@ -7,13 +8,19 @@ export function useDeletePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => deletePost(id),
+    mutationFn: deletePost,
 
-    onSuccess: () => {
+    onSuccess: (_, id) => {
       toast.success("Post deleted successfully");
 
+      // Remove the deleted post from cache
+      queryClient.removeQueries({
+        queryKey: postKeys.detail(id),
+      });
+
+      // Refresh posts list
       queryClient.invalidateQueries({
-        queryKey: postKeys.all,
+        queryKey: postKeys.lists(),
       });
     },
 

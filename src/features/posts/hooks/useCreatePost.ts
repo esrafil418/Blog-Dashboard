@@ -14,7 +14,7 @@ export function useCreatePost() {
       toast.success("Post created successfully");
 
       queryClient.invalidateQueries({
-        queryKey: postKeys.all,
+        queryKey: postKeys.lists(),
       });
     },
     onError: () => {

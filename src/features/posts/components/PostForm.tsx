@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Post } from "@/types/post";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useCreatePost } from "../hooks/useCreatePost";
 import { useUpdatePost } from "../hooks/useUpdatePost";
@@ -18,6 +19,7 @@ type Props = {
 export default function PostForm({ mode, post }: Props) {
   const createMutation = useCreatePost();
   const updateMutation = useUpdatePost();
+  const router = useRouter();
 
   const {
     register,
@@ -35,22 +37,35 @@ export default function PostForm({ mode, post }: Props) {
 
   function onSubmit(values: CreatePostFormValues) {
     if (mode === "create") {
-      createMutation.mutate({
-        title: values.title,
-        body: values.body,
-        userId: 1,
-      });
-    }
-    if (mode === "edit" && post) {
-      updateMutation.mutate({
-        id: String(post.id),
-
-        post: {
+      createMutation.mutate(
+        {
           title: values.title,
           body: values.body,
-          userId: post.userId,
+          userId: 1,
         },
-      });
+        {
+          onSuccess: () => {
+            reset();
+          },
+        },
+      );
+    }
+    if (mode === "edit" && post) {
+      updateMutation.mutate(
+        {
+          id: String(post.id),
+          post: {
+            title: values.title,
+            body: values.body,
+            userId: post.userId,
+          },
+        },
+        {
+          onSuccess: () => {
+            router.push(`/posts/${post.id}`);
+          },
+        },
+      );
     }
   }
 

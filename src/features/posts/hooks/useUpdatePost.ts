@@ -14,8 +14,15 @@ export function useUpdatePost() {
     onSuccess: (updatedPost) => {
       toast.success("Post updated successfully");
 
+      // Update the single post cache immediately
+      queryClient.setQueryData(
+        postKeys.detail(String(updatedPost.id)),
+        updatedPost,
+      );
+
+      // Refresh all post lists
       queryClient.invalidateQueries({
-        queryKey: postKeys.all,
+        queryKey: postKeys.lists(),
       });
     },
 
