@@ -15,12 +15,9 @@ export default function Navbar() {
       </button>
 
       {/* Welcome - hidden on mobile, visible on desktop */}
-      <button
-        type="button"
-        className="hidden md:block text-sm text-muted-foreground cursor-pointer hover:underline transition-all duration-300"
-      >
+      <div className="hidden md:block text-sm text-muted-foreground cursor-pointer hover:underline transition-all duration-300">
         <ThemeToggle />
-      </button>
+      </div>
 
       {/* Mobile sidebar trigger - replaces Login on mobile */}
       <div className="md:hidden">
