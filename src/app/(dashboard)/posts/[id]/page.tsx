@@ -3,6 +3,8 @@
 import EmptyState from "@/components/states/EmptyState";
 import ErrorState from "@/components/states/ErrorState";
 import LoadingState from "@/components/states/LoadingState";
+import PostComments from "@/features/comments/components/PostComments";
+import { usePostComments } from "@/features/comments/hooks/usePostComments";
 import PostDetail from "@/features/posts/components/PostDetail";
 import { usePost } from "@/features/posts/hooks/usePost";
 import { useRouter } from "next/navigation";
@@ -16,11 +18,14 @@ type Props = {
 
 export default function PostDetailPage({ params }: Props) {
   const router = useRouter();
-
   const { id } = React.use(params);
-
+  // Post
   const { data, isLoading, isError } = usePost(id);
+  // Post Comments
+  const { data: commentsData, isLoading: commentsLoading } =
+    usePostComments(id);
 
+  // ? condition -----------------
   if (isLoading) {
     return <LoadingState message="Loading post..." />;
   }
@@ -38,6 +43,7 @@ export default function PostDetailPage({ params }: Props) {
     );
   }
 
+  // ? return -----------------
   return (
     <div className="bg-background">
       <button
@@ -47,7 +53,21 @@ export default function PostDetailPage({ params }: Props) {
       >
         ← Back to posts
       </button>
-      <main className="min-h-screen">{data && <PostDetail post={data} />}</main>
+      <main className="min-h-screen">
+        {data && <PostDetail post={data} />}
+        {commentsLoading ? (
+          <LoadingState message="Loading comments..." />
+        ) : commentsData ? (
+          commentsData.comments.length === 0 ? (
+            <EmptyState
+              title="No comments yet"
+              description="Be the first one to comment."
+            />
+          ) : (
+            <PostComments comments={commentsData.comments} />
+          )
+        ) : null}
+      </main>
     </div>
   );
 }
