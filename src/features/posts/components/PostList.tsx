@@ -1,0 +1,16 @@
+import { Post } from "@/types/post";
+import PostCard from "./PostCard";
+
+type Props = {
+  posts: Post[];
+};
+
+export default function PostList({ posts }: Props) {
+  return (
+    <div className="grid gap-4">
+      {posts.map((post) => (
+        <PostCard key={post.id} post={post} />
+      ))}
+    </div>
+  );
+}

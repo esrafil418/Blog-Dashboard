@@ -1,11 +1,12 @@
 "use client";
 
 import PageHeader from "@/components/PageHeader";
+import Pagination from "@/components/Pagination";
+import SearchInput from "@/components/SearchInput";
 import EmptyState from "@/components/states/EmptyState";
 import ErrorState from "@/components/states/ErrorState";
 import LoadingState from "@/components/states/LoadingState";
-import { Input } from "@/components/ui/input";
-import UserCard from "@/features/users/components/UserCard";
+import UserList from "@/features/users/components/UserList";
 import { useUsers } from "@/features/users/hooks/useUsers";
 import useDebounce from "@/hooks/useDebounce";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -87,41 +88,17 @@ export default function UsersPage() {
       <PageHeader title="Users" description="Browse all users" />
 
       {/* search */}
-      <Input
-        placeholder="Search users..."
+      <SearchInput
         value={search}
+        placeholder="Search users..."
         onChange={handleSearch}
       />
 
       {/* users list */}
-      <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {data.users.map((user) => (
-          <UserCard key={user.id} user={user} />
-        ))}
-      </section>
+      <UserList users={data.users} />
 
       {/* pagination */}
-      <div className="mt-8 flex items-center justify-between">
-        <button
-          onClick={() => goToPage(page - 1)}
-          disabled={page === 1}
-          className="cursor-pointer rounded border px-4 py-2 disabled:opacity-50"
-        >
-          Previous
-        </button>
-
-        <span>
-          Page {page} of {totalPages}
-        </span>
-
-        <button
-          onClick={() => goToPage(page + 1)}
-          disabled={page >= totalPages}
-          className="cursor-pointer rounded border px-4 py-2 disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      <Pagination page={page} totalPages={totalPages} onPageChange={goToPage} />
     </main>
   );
 }

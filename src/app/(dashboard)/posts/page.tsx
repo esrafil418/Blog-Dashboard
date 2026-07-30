@@ -1,11 +1,12 @@
 "use client";
 
 import PageHeader from "@/components/PageHeader";
+import Pagination from "@/components/Pagination";
+import SearchInput from "@/components/SearchInput";
 import EmptyState from "@/components/states/EmptyState";
 import ErrorState from "@/components/states/ErrorState";
-import { Input } from "@/components/ui/input";
-import PostCard from "@/features/posts/components/PostCard";
 import PostCardSkeleton from "@/features/posts/components/PostCardSkeleton";
+import PostList from "@/features/posts/components/PostList";
 import usePosts from "@/features/posts/hooks/usePosts";
 import useDebounce from "@/hooks/useDebounce";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -94,42 +95,17 @@ export default function PostsPage() {
       <PageHeader title="Posts" description="Browse all posts" />
 
       {/* search */}
-      <Input
-        className="mb-6"
-        placeholder="Search posts..."
+      <SearchInput
         value={search}
+        placeholder="Search posts..."
         onChange={handleSearch}
       />
 
       {/* posts list */}
-      <div className="grid gap-4">
-        {data?.posts.map((post) => (
-          <PostCard key={post.id} post={post}></PostCard>
-        ))}
-      </div>
+      <PostList posts={data.posts} />
 
       {/* pagination */}
-      <div className="mt-8 flex items-center justify-between">
-        <button
-          onClick={() => goToPage(page - 1)}
-          disabled={page === 1}
-          className="rounded border px-4 py-2 disabled:opacity-50 cursor-pointer"
-        >
-          Previous
-        </button>
-
-        <span>
-          Page {page} of {totalPages}
-        </span>
-
-        <button
-          onClick={() => goToPage(page + 1)}
-          disabled={page >= totalPages}
-          className="rounded border px-4 py-2 disabled:opacity-50 cursor-pointer"
-        >
-          Next
-        </button>
-      </div>
+      <Pagination page={page} totalPages={totalPages} onPageChange={goToPage} />
     </main>
   );
 }
