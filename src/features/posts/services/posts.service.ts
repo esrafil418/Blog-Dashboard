@@ -1,4 +1,4 @@
-import { Post, PostsResponse } from "@/types/post";
+import { CreatePostInput, Post, PostsResponse } from "@/types/post";
 import axios from "axios";
 
 const API_URL = "https://dummyjson.com/";
@@ -40,25 +40,10 @@ export async function getPost(id: string): Promise<Post> {
 //! 3 -------------------------
 //? Create a post
 
-type CreatePostData = {
-  title: string;
-  body: string;
-};
+export async function createPost(post: CreatePostInput): Promise<Post> {
+  const response = await axios.post(`${API_URL}/posts/add`, post);
 
-export async function createPost(post: CreatePostData): Promise<Post> {
-  const response = await fetch("https://dummyjson.com/posts/add", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(post),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to create post.");
-  }
-
-  return response.json();
+  return response.data();
 }
 
 //! 4 -------------------------

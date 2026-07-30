@@ -17,3 +17,9 @@ export interface PostsResponse {
   skip: number;
   limit: number;
 }
+
+export type CreatePostInput = {
+  title: string;
+  body: string;
+  userId: number;
+};

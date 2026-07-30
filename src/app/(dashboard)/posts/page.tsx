@@ -2,6 +2,7 @@
 
 import EmptyState from "@/components/states/EmptyState";
 import ErrorState from "@/components/states/ErrorState";
+import CreatePostForm from "@/features/posts/components/CreatePostPage";
 import PostCard from "@/features/posts/components/PostCard";
 import PostCardSkeleton from "@/features/posts/components/PostCardSkeleton";
 import usePosts from "@/features/posts/hooks/usePosts";

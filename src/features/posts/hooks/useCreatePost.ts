@@ -1,10 +1,12 @@
+import { CreatePostInput } from "@/types/post";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPost } from "../services/posts.service";
 
-export default function useCreatePost() {
+export function useCreatePost() {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: createPost,
+    mutationFn: (post: CreatePostInput) => createPost(post),
 
     onSuccess: () => {
       queryClient.invalidateQueries({
