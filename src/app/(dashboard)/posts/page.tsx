@@ -9,45 +9,14 @@ import PostCardSkeleton from "@/features/posts/components/PostCardSkeleton";
 import PostList from "@/features/posts/components/PostList";
 import usePosts from "@/features/posts/hooks/usePosts";
 import useDebounce from "@/hooks/useDebounce";
-import { useRouter, useSearchParams } from "next/navigation";
+import useSearchPagination from "@/hooks/useSearchPagination";
 
 export default function PostsPage() {
-  // ? searchParams
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search") ?? "";
-  const page = Number(searchParams.get("page") ?? "1");
+  const { search, page, handleSearch, goToPage } =
+    useSearchPagination("/posts");
+
   //? debounced
   const debouncedSearch = useDebounce(search, 1000);
-
-  //? handle Search
-  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value;
-
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (value) {
-      params.set("search", value);
-    } else {
-      params.delete("search");
-    }
-
-    params.set("page", "1");
-
-    const newUrl = `/posts?${params.toString()}`;
-
-    if (newUrl !== window.location.pathname + window.location.search) {
-      router.push(newUrl, { scroll: false });
-    }
-  }
-
-  // ? pagination
-  function goToPage(newPage: number) {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(newPage));
-
-    router.push(`/posts?${params.toString()}`, { scroll: false });
-  }
 
   // ? Tanstack Query -----------------
   const { data, isLoading, isError } = usePosts(debouncedSearch, page);
@@ -79,7 +48,7 @@ export default function PostsPage() {
     );
   }
 
-  if (data?.posts.length === 0) {
+  if (data.posts.length === 0) {
     return (
       <div className="rounded-lg border p-8 text-center">
         <h2 className="text-xl font-semibold">No posts found</h2>

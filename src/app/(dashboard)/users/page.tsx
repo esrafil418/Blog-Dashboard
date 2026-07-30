@@ -9,63 +9,15 @@ import LoadingState from "@/components/states/LoadingState";
 import UserList from "@/features/users/components/UserList";
 import { useUsers } from "@/features/users/hooks/useUsers";
 import useDebounce from "@/hooks/useDebounce";
-import { useRouter, useSearchParams } from "next/navigation";
+import useSearchPagination from "@/hooks/useSearchPagination";
 
 export default function UsersPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const search = searchParams.get("search") ?? "";
-  const page = Number(searchParams.get("page") ?? "1");
+  const { search, page, handleSearch, goToPage } =
+    useSearchPagination("/users");
 
   const debouncedSearch = useDebounce(search, 1000);
-
   const { data, isLoading, isError } = useUsers(debouncedSearch, page);
-
   const totalPages = data ? Math.ceil(data.total / data.limit) : 1;
-
-  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value;
-
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (value) {
-      params.set("search", value);
-    } else {
-      params.delete("search");
-    }
-
-    params.set("page", "1");
-
-    router.push(`/users?${params.toString()}`, {
-      scroll: false,
-    });
-  }
-
-  function goToPage(newPage: number) {
-    const params = new URLSearchParams(searchParams.toString());
-
-    params.set("page", String(newPage));
-
-    router.push(`/users?${params.toString()}`, {
-      scroll: false,
-    });
-  }
-
-  if (!data) {
-    return (
-      <EmptyState
-        title="Users not found"
-        description="We couldn't load users."
-      />
-    );
-  }
-
-  if (data.users.length === 0) {
-    return (
-      <EmptyState title="No users found" description="Try another search." />
-    );
-  }
 
   // ? conditions --------------------
   if (isLoading) {
@@ -76,7 +28,18 @@ export default function UsersPage() {
     return <ErrorState message="Failed to load users." />;
   }
 
-  if (!data || data.users.length === 0) {
+  // No data
+  if (!data) {
+    return (
+      <EmptyState
+        title="Users not found"
+        description="We couldn't load users."
+      />
+    );
+  }
+
+  // Empty array
+  if (data.users.length === 0) {
     return (
       <EmptyState title="No users found" description="Try another search." />
     );
