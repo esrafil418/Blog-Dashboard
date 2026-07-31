@@ -11,10 +11,9 @@ import { useCreatePost } from "../hooks/useCreatePost";
 import { useUpdatePost } from "../hooks/useUpdatePost";
 import { CreatePostFormValues, createPostSchema } from "../schemas/post.schema";
 
-type Props = {
-  mode: "create" | "edit";
-  post?: Post;
-};
+type Props =
+  | { mode: "create"; post?: undefined }
+  | { mode: "edit"; post: Post };
 
 export default function PostForm({ mode, post }: Props) {
   const createMutation = useCreatePost();
@@ -36,6 +35,7 @@ export default function PostForm({ mode, post }: Props) {
   });
 
   function onSubmit(values: CreatePostFormValues) {
+    if (createMutation.isPending || updateMutation.isPending) return;
     if (mode === "create") {
       createMutation.mutate(
         {
