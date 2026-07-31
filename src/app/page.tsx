@@ -6,10 +6,12 @@ import PostsChart from "@/components/charts/PostsChart";
 import UsersChart from "@/components/charts/UsersChart";
 import DashboardStatCard from "@/components/DashboardStatCard";
 import DashboardStatSkeleton from "@/components/DashboardStatSkeleton";
+import { DataTable } from "@/components/DataTable";
 import SectionHeader from "@/components/SectionHeader";
 import { ThemeToggle } from "@/components/theme/dark-mode-button";
 import RecentComments from "@/features/comments/components/RecentComments";
 import { useComments } from "@/features/comments/hooks/useComments";
+import { columns } from "@/features/posts/components/PostsColumns"; // Import columns
 import RecentPosts from "@/features/posts/components/RecentPosts";
 import usePosts from "@/features/posts/hooks/usePosts";
 import RecentUsers from "@/features/users/components/RecentUsers";
@@ -48,6 +50,7 @@ export default function Home() {
         <section className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {isLoading ? (
             <>
+              <DashboardStatSkeleton />
               <DashboardStatSkeleton />
               <DashboardStatSkeleton />
               <DashboardStatSkeleton />
@@ -141,6 +144,17 @@ export default function Home() {
             )}
           </section>
         </div>
+
+        {/* Post List and DataTable */}
+        {postsData && (
+          <section>
+            <SectionHeader
+              title="Posts Table"
+              description="View Top 10 posts in a table"
+            />
+            <DataTable columns={columns} data={postsData.posts} />
+          </section>
+        )}
       </div>
     </main>
   );
