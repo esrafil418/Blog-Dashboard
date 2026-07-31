@@ -1,3 +1,5 @@
+"use client"
+
 import { useRouter } from "next/navigation";
 import MobileSidebar from "./MobileSidebar";
 import { ThemeToggle } from "./theme/dark-mode-button";
