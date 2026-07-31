@@ -9,7 +9,7 @@ export async function getUsers(search: string, page: number) {
   const skip = (page - 1) * limit;
 
   const endpoint = search
-    ? `${API_URL}/users/search?q=${search}&limit=${limit}&skip=${skip}`
+    ? `${API_URL}/users/search?q=${encodeURIComponent(search)}&limit=${limit}&skip=${skip}`
     : `${API_URL}/users?limit=${limit}&skip=${skip}`;
 
   const response = await axios.get<UsersResponse>(endpoint);

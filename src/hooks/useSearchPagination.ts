@@ -6,7 +6,8 @@ export default function useSearchPagination(pathname: string) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const search = searchParams.get("search") ?? "";
-  const page = Number(searchParams.get("page") ?? "1");
+  const rawPage = Number(searchParams.get("page") ?? "1");
+  const page = Number.isSafeInteger(rawPage) && rawPage > 0 ? rawPage : 1;
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
