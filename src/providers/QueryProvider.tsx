@@ -1,13 +1,16 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactNode, useState } from "react";
 
-type QueryProviderProps = {
-  children: ReactNode;
-};
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-export default function QueryProvider({ children }: QueryProviderProps) {
+import { useState } from "react";
+
+export default function QueryProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -20,9 +23,10 @@ export default function QueryProvider({ children }: QueryProviderProps) {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      {children}
+
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
-
-//? Notes
-// we use useState to create one QueryClient only once, and it keeps the same instance

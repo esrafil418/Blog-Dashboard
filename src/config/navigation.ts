@@ -9,10 +9,14 @@ export const navigation = [
   },
   {
     href: "/posts/create",
-    label: " - Create Post",
+    label: "Create Post",
   },
   {
     href: "/users",
     label: "Users",
+  },
+  {
+    href: "/comments",
+    label: "Comments",
   },
 ];

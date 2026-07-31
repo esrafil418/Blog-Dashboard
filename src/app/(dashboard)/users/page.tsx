@@ -1,44 +1,67 @@
 "use client";
 
-import UserCard from "@/features/users/components/UserCard";
+import PageHeader from "@/components/PageHeader";
+import Pagination from "@/components/Pagination";
+import SearchInput from "@/components/SearchInput";
+import EmptyState from "@/components/states/EmptyState";
+import ErrorState from "@/components/states/ErrorState";
+import LoadingState from "@/components/states/LoadingState";
+import UserList from "@/features/users/components/UserList";
 import { useUsers } from "@/features/users/hooks/useUsers";
+import useDebounce from "@/hooks/useDebounce";
+import useSearchPagination from "@/hooks/useSearchPagination";
 
 export default function UsersPage() {
-  const { data, isLoading, isError } = useUsers();
+  const { search, page, handleSearch, goToPage } =
+    useSearchPagination("/users");
 
+  const debouncedSearch = useDebounce(search, 1000);
+  const { data, isLoading, isError } = useUsers(debouncedSearch, page);
+  const totalPages = data ? Math.ceil(data.total / data.limit) : 1;
+
+  // ? conditions --------------------
   if (isLoading) {
-    return (
-      <main className="p-6">
-        <h1>Loading users...</h1>
-      </main>
-    );
+    return <LoadingState message="Loading users..." />;
   }
 
   if (isError) {
+    return <ErrorState message="Failed to load users." />;
+  }
+
+  // No data
+  if (!data) {
     return (
-      <main className="p-6">
-        <h1>Error loading users.</h1>
-      </main>
+      <EmptyState
+        title="Users not found"
+        description="We couldn't load users."
+      />
     );
   }
 
-  if (!data) {
-    return <h1>No users found.</h1>;
+  // Empty array
+  if (data.users.length === 0) {
+    return (
+      <EmptyState title="No users found" description="Try another search." />
+    );
   }
 
+  // ? return --------------------
   return (
     <main className="space-y-6 p-6 bg-background">
-      <section>
-        <h1 className="text-3xl font-bold">Users</h1>
+      <PageHeader title="Users" description="Browse all users" />
 
-        <p className="mt-2 text-muted-foreground">Browse all users.</p>
-      </section>
+      {/* search */}
+      <SearchInput
+        value={search}
+        placeholder="Search users..."
+        onChange={handleSearch}
+      />
 
-      <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {data.users.map((user) => (
-          <UserCard key={user.id} user={user} />
-        ))}
-      </section>
+      {/* users list */}
+      <UserList users={data.users} />
+
+      {/* pagination */}
+      <Pagination page={page} totalPages={totalPages} onPageChange={goToPage} />
     </main>
   );
 }

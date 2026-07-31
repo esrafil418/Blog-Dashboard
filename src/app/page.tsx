@@ -10,7 +10,7 @@ import { useUsers } from "@/features/users/hooks/useUsers";
 
 export default function Home() {
   const { data: postsData, isLoading: postsLoading } = usePosts("", 1);
-  const { data: usersData, isLoading: usersLoading } = useUsers();
+  const { data: usersData, isLoading: usersLoading } = useUsers("", 1);
   const { data: commentsData, isLoading: commentsLoading } = useComments();
 
   const postsCount = postsData?.total ?? 0;

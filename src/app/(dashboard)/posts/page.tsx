@@ -1,51 +1,22 @@
 "use client";
 
+import PageHeader from "@/components/PageHeader";
+import Pagination from "@/components/Pagination";
+import SearchInput from "@/components/SearchInput";
 import EmptyState from "@/components/states/EmptyState";
 import ErrorState from "@/components/states/ErrorState";
-import CreatePostForm from "@/features/posts/components/CreatePostPage";
-import PostCard from "@/features/posts/components/PostCard";
 import PostCardSkeleton from "@/features/posts/components/PostCardSkeleton";
+import PostList from "@/features/posts/components/PostList";
 import usePosts from "@/features/posts/hooks/usePosts";
 import useDebounce from "@/hooks/useDebounce";
-import { useRouter, useSearchParams } from "next/navigation";
+import useSearchPagination from "@/hooks/useSearchPagination";
 
 export default function PostsPage() {
-  // ? searchParams
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search") ?? "";
-  const page = Number(searchParams.get("page") ?? "1");
+  const { search, page, handleSearch, goToPage } =
+    useSearchPagination("/posts");
+
   //? debounced
   const debouncedSearch = useDebounce(search, 1000);
-
-  //? handle Search
-  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value;
-
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (value) {
-      params.set("search", value);
-    } else {
-      params.delete("search");
-    }
-
-    params.set("page", "1");
-
-    const newUrl = `/posts?${params.toString()}`;
-
-    if (newUrl !== window.location.pathname + window.location.search) {
-      router.push(newUrl, { scroll: false });
-    }
-  }
-
-  // ? pagination
-  function goToPage(newPage: number) {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(newPage));
-
-    router.push(`/posts?${params.toString()}`, { scroll: false });
-  }
 
   // ? Tanstack Query -----------------
   const { data, isLoading, isError } = usePosts(debouncedSearch, page);
@@ -77,7 +48,7 @@ export default function PostsPage() {
     );
   }
 
-  if (data?.posts.length === 0) {
+  if (data.posts.length === 0) {
     return (
       <div className="rounded-lg border p-8 text-center">
         <h2 className="text-xl font-semibold">No posts found</h2>
@@ -89,44 +60,21 @@ export default function PostsPage() {
 
   // ? return -----------------
   return (
-    <main className="p-6 bg-background">
-      <h1 className="mb-4 text-3xl font-bold">Posts</h1>
+    <main className="space-y-6 p-6 bg-background">
+      <PageHeader title="Posts" description="Browse all posts" />
 
       {/* search */}
-      <input
-        className="mb-6 w-full rounded border p-2"
-        placeholder="Search..."
+      <SearchInput
         value={search}
+        placeholder="Search posts..."
         onChange={handleSearch}
       />
 
       {/* posts list */}
-      <div className="grid gap-4">
-        {data?.posts.map((post) => (
-          <PostCard key={post.id} post={post}></PostCard>
-        ))}
-      </div>
-      <div className="mt-8 flex items-center justify-between">
-        <button
-          onClick={() => goToPage(page - 1)}
-          disabled={page === 1}
-          className="rounded border px-4 py-2 disabled:opacity-50 cursor-pointer"
-        >
-          Previous
-        </button>
+      <PostList posts={data.posts} />
 
-        <span>
-          Page {page} of {totalPages}
-        </span>
-
-        <button
-          onClick={() => goToPage(page + 1)}
-          disabled={page >= totalPages}
-          className="rounded border px-4 py-2 disabled:opacity-50 cursor-pointer"
-        >
-          Next
-        </button>
-      </div>
+      {/* pagination */}
+      <Pagination page={page} totalPages={totalPages} onPageChange={goToPage} />
     </main>
   );
 }
