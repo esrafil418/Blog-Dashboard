@@ -1,10 +1,12 @@
-# Blog Dashboard — Modern Full-Stack Dashboard Interface
+# Blog Dashboard
 
 A modern blog management dashboard built with **Next.js, TypeScript, TanStack Query, TanStack Table, shadcn/ui, Tailwind CSS, and React ecosystem tools**.
 
 This project was created to practice building a production-style dashboard application with clean architecture, reusable components, server-state management, advanced UI patterns, and scalable project structure.
 
 The goal of this project is not only to create a functional dashboard, but also to demonstrate modern frontend development practices used in real-world applications.
+
+![Blog Dashboard Screenshot](https://i.imgpeek.com/Le6k27t3mJC4)
 
 ---
 
